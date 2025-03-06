@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 lastMoveDirection;
     private bool isDashing = false;
     private bool canDash = true;
+    private bool facingRight = true;
 
     void Start()
     {
@@ -45,8 +46,16 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
-		
-		
+	        
+	 float horizontal = Input.GetAxisRaw("Horizontal");
+        if (horizontal > 0 && !facingRight)
+        {
+            Flip();
+        }
+        else if (horizontal < 0 && facingRight)
+        {
+            Flip();
+        }	
     }
 
     void FixedUpdate()
@@ -56,6 +65,14 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = moveDirection * moveSpeed;
         }
+    }
+
+        private void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
     private IEnumerator Dash()
