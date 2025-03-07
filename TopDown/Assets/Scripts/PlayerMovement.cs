@@ -46,6 +46,9 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
+		
+		if(isDashing)
+			return;
 	        
 	 float horizontal = Input.GetAxisRaw("Horizontal");
         if (horizontal > 0 && !facingRight)
