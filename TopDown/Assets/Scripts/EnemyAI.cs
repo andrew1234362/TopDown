@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     private Rigidbody2D rb;
 
     [Header("State Management")]
-    private bool isChasing = false;
+    public bool isChasing = false;
     private Vector2 lastKnownPosition;
 
     void Start()
