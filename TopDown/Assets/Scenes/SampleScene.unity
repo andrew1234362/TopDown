@@ -874,12 +874,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77b6d6f764ee61949be61fc5b92fadfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 5
+  detectionRange: 15
   chaseSpeed: 3
   stoppingDistance: 1
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 0
+  isChasing: 1
 --- !u!1 &853624157
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +909,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853624157}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

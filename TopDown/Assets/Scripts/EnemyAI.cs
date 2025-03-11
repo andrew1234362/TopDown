@@ -39,7 +39,7 @@ public class EnemyAI : MonoBehaviour
 
             if (hit.collider != null && hit.collider.CompareTag("Player"))
             {
-                // Player is visible!
+                // Player is visible
                 isChasing = true;
                 lastKnownPosition = player.position;
             }
@@ -55,7 +55,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         // Handle chasing behavior
-        if (isChasing)
+        if (isChasing == true)
         {
             ChasePlayer();
         }
@@ -77,5 +77,6 @@ public class EnemyAI : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
         }
+		isChasing = true;
     }
 }
