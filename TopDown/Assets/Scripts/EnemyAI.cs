@@ -6,15 +6,14 @@ public class EnemyAI : MonoBehaviour
     public float detectionRange = 5f;
     public float chaseSpeed = 3f;
     public float stoppingDistance = 1f;
-    public LayerMask obstacleLayers;
+    public LayerMask detectionLayers; // Changed from obstacleLayers
 
     [Header("References")]
     private Transform player;
     private Rigidbody2D rb;
 
     [Header("State Management")]
-    public bool isChasing = false;
-    private Vector2 lastKnownPosition;
+    private bool isChasing = false;
 
     void Start()
     {
@@ -25,43 +24,43 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        bool hasLineOfSight = false;
 
         if (distanceToPlayer <= detectionRange)
         {
-            // Calculate direction to player
             Vector2 directionToPlayer = (player.position - transform.position).normalized;
             
-            // Raycast to check line of sight
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, detectionRange, obstacleLayers);
-            
-            // Debug visualization
+            // Raycast with debug visualization
+            RaycastHit2D hit = Physics2D.Raycast(
+                transform.position, 
+                directionToPlayer, 
+                detectionRange, 
+                detectionLayers
+            );
+
             Debug.DrawRay(transform.position, directionToPlayer * detectionRange, Color.red);
 
+            // If we hit something and it's the player
             if (hit.collider != null && hit.collider.CompareTag("Player"))
             {
-                // Player is visible
-                isChasing = true;
-                lastKnownPosition = player.position;
+                hasLineOfSight = true;
             }
-            else
-            {
-                // Player is obstructed or out of range
-                isChasing = false;
-            }
-        }
-        else
-        {
-            isChasing = false;
         }
 
-        // Handle chasing behavior
-        if (isChasing == true)
+        isChasing = hasLineOfSight;
+        UpdateChaseBehavior();
+		
+		
+    }
+
+    void UpdateChaseBehavior()
+    {
+        if (isChasing)
         {
             ChasePlayer();
         }
         else
         {
-            // Optional: Add idle behavior here
             rb.velocity = Vector2.zero;
         }
     }
@@ -77,6 +76,5 @@ public class EnemyAI : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
         }
-		isChasing = true;
     }
 }
